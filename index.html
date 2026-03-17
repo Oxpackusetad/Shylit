@@ -9,15 +9,13 @@
     <style>
         :root {
             --bg-color: #08080c;
-            --main-neon: #00ffcc; /* Neon Cyan */
-            --sub-neon: #ff00ff;  /* Neon Magenta */
+            --main-neon: #00ffcc;
+            --sub-neon: #ff00ff;
             --text-color: #e0e0e0;
             --card-bg: rgba(20, 20, 25, 0.7);
             --transition: all 0.3s ease;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Space Grotesk', sans-serif;
             background-color: var(--bg-color);
@@ -28,8 +26,6 @@
             overflow-x: hidden;
             line-height: 1.6;
         }
-
-        /* GAYA NAVIGASI */
         nav {
             position: fixed; top: 0; width: 100%; height: 70px;
             background: rgba(8, 8, 12, 0.9);
@@ -38,27 +34,19 @@
             padding: 0 50px; z-index: 100;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-
         .logo { font-size: 1.5rem; font-weight: 700; color: var(--main-neon); text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px var(--main-neon); }
-
         .nav-links { display: flex; gap: 30px; }
         .nav-links a { color: var(--text-color); text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
         .nav-links a:hover { color: var(--main-neon); }
-
         .btn-connect {
             background: transparent; border: 1px solid var(--main-neon); color: var(--main-neon);
             padding: 8px 20px; border-radius: 5px; font-weight: 500; cursor: pointer; transition: var(--transition); font-size: 0.85rem;
         }
         .btn-connect:hover { background: var(--main-neon); color: #08080c; box-shadow: 0 0 15px var(--main-neon); }
-
-        /* GAYA UTAMA (HERO) */
         main { padding: 120px 50px; display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 100vh; }
-
         .hero-title { font-size: 4rem; font-weight: 700; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 20px; color: white; }
         .hero-title span { color: var(--main-neon); text-shadow: 0 0 15px var(--main-neon); }
         .hero-subtitle { font-size: 1.2rem; color: #a0a0a0; max-width: 600px; margin-bottom: 50px; font-weight: 300; }
-
-        /* KARTU DAPP INTERAKTIF */
         .dapp-card {
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.03);
@@ -69,27 +57,20 @@
             backdrop-filter: blur(5px);
             transition: var(--transition);
         }
-        .dapp-card:hover { border-color: rgba(0, 255, 204, 0.2); }
-
         .card-header { margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; }
         .card-header h3 { font-size: 1.1rem; color: #fff; margin-bottom: 5px; }
         .card-header small { color: var(--main-neon); font-size: 0.7rem; font-weight: 700; }
-
         .stats-group { display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 20px; }
         .stat { text-align: left; }
         .stat-label { font-size: 0.7rem; color: #888; text-transform: uppercase; }
         .stat-value { font-size: 1.4rem; color: white; font-weight: 500; }
-
         .btn-action {
             width: 100%; background: linear-gradient(135deg, var(--main-neon), var(--sub-neon));
             color: #08080c; border: none; padding: 15px; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: var(--transition); text-transform: uppercase; letter-spacing: 1px;
         }
         .btn-action:hover { box-shadow: 0 0 20px rgba(0, 255, 204, 0.4); opacity: 0.9; }
         .btn-action:disabled { opacity: 0.3; cursor: not-allowed; }
-
-        .status-msg { margin-top: 15px; font-size: 0.8rem; min-height: 1.2rem; color: #888; }
-
-        /* RESPONSIVE */
+        .status-msg { margin-top: 15px; font-size: 0.8rem; min-height: 1.2rem; color: #888; word-break: break-all; }
         @media (max-width: 768px) {
             nav { padding: 0 20px; }
             .nav-links { display: none; }
@@ -103,8 +84,7 @@
     <nav>
         <div class="logo">Shylit</div>
         <div class="nav-links">
-            <a href="#">About</a>
-            <a href="https://sepolia.etherscan.io/token/0x71F6Bf6A6f2E47481B098b6A24b75A7750F23BB4" target="_blank">Etherscan🔗</a>
+            <a href="https://sepolia.etherscan.io/token/0x71f6b0f218059FdaFFFaF646Bc582EC5Dd423BB4" target="_blank">Etherscan🔗</a>
             <a href="https://oxpackusetad.github.io/" target="_blank">Portfolio</a>
         </div>
         <button class="btn-connect" id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
@@ -119,7 +99,6 @@
                 <h3>Token Faucet</h3>
                 <small>Claim your first SHL</small>
             </div>
-
             <div class="stats-group">
                 <div class="stat">
                     <div class="stat-label">Symbol</div>
@@ -130,21 +109,15 @@
                     <div class="stat-value">100</div>
                 </div>
             </div>
-
             <button class="btn-action" id="claimBtn" onclick="claimToken()" disabled>Connect Wallet to Claim</button>
             <p class="status-msg" id="statusMsg"></p>
         </div>
     </main>
 
     <script>
-        // --- KONFIGURASI DAPP ---
-        // GANTI INI DENGAN ALAMAT KONTRAK ASLI DARI REMIX (Copy-paste alamatnya)
         const CONTRACT_ADDRESS = "0x71f6b0f218059FdaFFFaF646Bc582EC5Dd423BB4"; 
-        
-        // ABI Minimal (Fungsi yang akan kita panggil)
         const ABI = ["function mint(address to, uint256 amount) public"];
 
-        // --- Variabel Global ---
         let signer = null;
         let contract = null;
 
@@ -152,77 +125,71 @@
         const claimBtn = document.getElementById('claimBtn');
         const statusMsg = document.getElementById('statusMsg');
 
-        // --- FUNGSI 1: KONEKSI WALLET ---
         async function connectWallet() {
-            if (window.ethereum) {
+            if (typeof window.ethereum !== 'undefined') {
                 try {
-                    // Update status
-                    statusMsg.innerText = "Connecting...";
+                    statusMsg.innerText = "Requesting connection...";
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                     
-                    // Minta akses provider
                     const provider = new ethers.BrowserProvider(window.ethereum);
+                    
+                    // Paksa pindah ke Sepolia (Chain ID 11155111)
+                    const network = await provider.getNetwork();
+                    if (network.chainId !== 11155111n) {
+                        try {
+                            await window.ethereum.request({
+                                method: 'wallet_switchEthereumChain',
+                                params: [{ chainId: '0xaa36a7' }],
+                            });
+                        } catch (err) {
+                            statusMsg.innerText = "Please switch to Sepolia Testnet in your wallet.";
+                            return;
+                        }
+                    }
+
                     signer = await provider.getSigner();
-                    
                     const userAddress = await signer.getAddress();
-                    const shortAddress = userAddress.substring(0, 6) + "..." + userAddress.substring(38);
                     
-                    // Update UI (Tombol Nav)
-                    connectBtn.innerText = "Linked: " + shortAddress;
-                    connectBtn.style.borderColor = "var(--sub-neon)";
+                    connectBtn.innerText = userAddress.substring(0, 6) + "..." + userAddress.substring(38);
                     connectBtn.style.color = "var(--sub-neon)";
                     
-                    // Persiapkan Kontrak
                     contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
                     
-                    // Aktifkan Tombol Claim
                     claimBtn.innerText = "Claim 100 Free SHL";
                     claimBtn.disabled = false;
-                    statusMsg.innerText = "Wallet Connected! Jaringan Sepolia terdeteksi.";
-                    
+                    statusMsg.innerText = "Connected to Sepolia!";
+                    statusMsg.style.color = "var(--main-neon)";
                 } catch (error) {
                     console.error(error);
-                    statusMsg.innerText = "Gagal koneksi wallet.";
+                    statusMsg.innerText = "Connection rejected.";
                 }
             } else {
-                alert("Browser Web3 atau MetaMask tidak terdeteksi!");
-                statusMsg.innerText = "Gunakan Browser Web3/MetaMask.";
+                alert("Please open this link inside MetaMask/OKX Browser!");
             }
         }
 
-        // --- FUNGSI 2: CLAIM TOKEN (MINT) ---
         async function claimToken() {
             if (!signer || !contract) return;
-
             try {
-                // Update UI
-                statusMsg.innerText = "Permintaan Claim dikirim. Cek MetaMask...";
-                statusMsg.style.color = "var(--main-neon)";
+                statusMsg.innerText = "Confirm transaction in your wallet...";
                 claimBtn.innerText = "Processing...";
                 claimBtn.disabled = true;
 
-                // Hitung jumlah (100 + 18 desimal)
                 const amount = ethers.parseUnits("100", 18);
                 const userAddress = await signer.getAddress();
 
-                // Panggil fungsi Mint di blockchain
                 const tx = await contract.mint(userAddress, amount);
+                statusMsg.innerText = "Transaction sent! Waiting for block confirmation...";
                 
-                statusMsg.innerText = "Transaksi dikirim! Menunggu konfirmasi...";
-                console.log("Transaksi dikirim:", tx.hash);
-                
-                // Tunggu konfirmasi (1 block)
                 await tx.wait(); 
                 
-                // Sukses
-                console.log("Sukses!");
-                statusMsg.innerText = "Selamat! 100 SHL berhasil dicetak ke wallet kamu.";
-                statusMsg.style.color = "#00ff00"; // Ijo Sukses
+                statusMsg.innerText = "Success! 100 SHL minted to your wallet.";
+                statusMsg.style.color = "#00ff00";
                 claimBtn.innerText = "Claimed!";
-                
             } catch (error) {
                 console.error(error);
-                statusMsg.innerText = "Gagal: Pastikan saldo Sepolia ETH cukup atau kamu adalah OWNER kontrak.";
-                statusMsg.style.color = "#ff0000"; // Merah Gagal
+                statusMsg.innerText = "Error: Check your Sepolia ETH balance or Owner rights.";
+                statusMsg.style.color = "#ff4444";
                 claimBtn.innerText = "Retry Claim";
                 claimBtn.disabled = false;
             }
