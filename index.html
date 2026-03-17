@@ -121,30 +121,30 @@
         let signer = null;
         let contract = null;
 
-        const connectBtn = document.getElementById('connectBtn');
-        const claimBtn = document.getElementById('claimBtn');
-        const statusMsg = document.getElementById('statusMsg');
-
         async function connectWallet() {
+            const statusMsg = document.getElementById('statusMsg');
+            const connectBtn = document.getElementById('connectBtn');
+            const claimBtn = document.getElementById('claimBtn');
+
             if (typeof window.ethereum !== 'undefined') {
                 try {
-                    statusMsg.innerText = "Requesting connection...";
+                    statusMsg.innerText = "Membuka Wallet...";
+                    // Gunakan requestAccounts untuk kompatibilitas lebih baik
                     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                     
                     const provider = new ethers.BrowserProvider(window.ethereum);
                     
-                    // Paksa pindah ke Sepolia (Chain ID 11155111)
+                    // Cek Jaringan
                     const network = await provider.getNetwork();
                     if (network.chainId !== 11155111n) {
+                        statusMsg.innerText = "Salah Jaringan! Mohon pindah ke Sepolia Testnet.";
                         try {
                             await window.ethereum.request({
                                 method: 'wallet_switchEthereumChain',
                                 params: [{ chainId: '0xaa36a7' }],
                             });
-                        } catch (err) {
-                            statusMsg.innerText = "Please switch to Sepolia Testnet in your wallet.";
-                            return;
-                        }
+                        } catch (e) { console.error(e); }
+                        return;
                     }
 
                     signer = await provider.getSigner();
@@ -157,40 +157,43 @@
                     
                     claimBtn.innerText = "Claim 100 Free SHL";
                     claimBtn.disabled = false;
-                    statusMsg.innerText = "Connected to Sepolia!";
+                    statusMsg.innerText = "Terhubung! Silakan klik Claim.";
                     statusMsg.style.color = "var(--main-neon)";
                 } catch (error) {
                     console.error(error);
-                    statusMsg.innerText = "Connection rejected.";
+                    statusMsg.innerText = "Koneksi Ditolak: " + error.message;
                 }
             } else {
-                alert("Please open this link inside MetaMask/OKX Browser!");
+                alert("Gunakan Browser di dalam MetaMask atau OKX Wallet!");
             }
         }
 
         async function claimToken() {
+            const statusMsg = document.getElementById('statusMsg');
+            const claimBtn = document.getElementById('claimBtn');
+
             if (!signer || !contract) return;
             try {
-                statusMsg.innerText = "Confirm transaction in your wallet...";
-                claimBtn.innerText = "Processing...";
+                statusMsg.innerText = "Konfirmasi transaksi di wallet kamu...";
+                claimBtn.innerText = "Sedang Memproses...";
                 claimBtn.disabled = true;
 
                 const amount = ethers.parseUnits("100", 18);
                 const userAddress = await signer.getAddress();
 
                 const tx = await contract.mint(userAddress, amount);
-                statusMsg.innerText = "Transaction sent! Waiting for block confirmation...";
+                statusMsg.innerText = "Transaksi terkirim! Menunggu konfirmasi blockchain...";
                 
                 await tx.wait(); 
                 
-                statusMsg.innerText = "Success! 100 SHL minted to your wallet.";
+                statusMsg.innerText = "Berhasil! 100 SHL sudah masuk ke wallet kamu.";
                 statusMsg.style.color = "#00ff00";
-                claimBtn.innerText = "Claimed!";
+                claimBtn.innerText = "Claim Selesai!";
             } catch (error) {
                 console.error(error);
-                statusMsg.innerText = "Error: Check your Sepolia ETH balance or Owner rights.";
+                statusMsg.innerText = "Gagal: Pastikan saldo Sepolia ETH cukup & kamu adalah owner.";
                 statusMsg.style.color = "#ff4444";
-                claimBtn.innerText = "Retry Claim";
+                claimBtn.innerText = "Coba Lagi";
                 claimBtn.disabled = false;
             }
         }
